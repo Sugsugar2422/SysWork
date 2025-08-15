@@ -34,46 +34,33 @@ comments = [
 def index_view(request):
     return redirect('comments')
 def users_view(request):
-    body = ''
-    for user in users:
-        body += '<a href="/keijiban/user/{id}/">{name}</a>'.format(id=user.id,name=user.username)
-    return HttpResponse(body)
+    context = {
+        'users' : users
+    }
+    return render(request, 'keijiban/users.html', context)
 
 def user_view(request, user_id):
     if user_id < 1 or user_id > len(users):
         raise Http404('User not found')
-    body = ''
+    
     user = users[user_id - 1]
-
-    body += user.username
-    body += ','
-    body += user.email
-    body += ','
-    body += str(user.age)
-    body += '\n<br>'
-
-    return HttpResponse(body)
+    context = {
+        'user' : user
+    }
+    return render(request, 'keijiban/user.html', context)
 
 def comments_view(request):
-    body = ''
-    
-    for comment in comments:
-        body += '<a href=/keijiban/comment/{id}/>{text}</a>'.format(id=comment.id,text=comment.text)
-        body += '\n<br>'
-
-    return HttpResponse(body)
+    context = {
+        'comments' : comments
+    }
+    return render(request, 'keijiban/comments.html', context)
 
 def comment_view(request, comment_id):
     if comment_id > len(comments) or comment_id < 1:
         raise Http404('Not found comment')
-
-    body = ''
+    
     comment = comments[comment_id - 1]
-
-    body += comment.text
-    body += ','
-    body += '{0:%Y年%m月%d日}'.format(comment.date)
-    body += '\n<br>'
-
-    return HttpResponse(body)
-# Create your views here.
+    context = {
+        'comment' : comment
+    }
+    return render(request, 'keijiban/comment.html', context)
