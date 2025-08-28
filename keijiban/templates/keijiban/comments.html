@@ -15,7 +15,11 @@
     <tbody>
         {% for comment in comments %}
         <tr>
-            <td><a href="{% url 'comment' comment.id %}">{{ comment.text|truncatechars:20 }}</a></td>
+            {% if comment.user is not None %}
+            <td>{{ comment.text }}</td>
+            {% else %}
+            <td>不明</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

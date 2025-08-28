@@ -41,18 +41,18 @@ def comment_view(request, comment_id):
 
 def register_view(request):
 
-    if request.method == 'POST':
+    if request.method == 'POST': #POSTリクエストかどうかの確認
 
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST) #POSTの中身を受け取ってRegisterFormクラスのインスタンスを生成
         if form.is_valid():
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
             age = form.cleaned_data.get('age')
             
-            user = User(username=username, email=email, age=age)
-            user.save()
+            user = User(username=username, email=email, age=age) #POSTの中身を保存できる形に成形
+            user.save() #DBに保存
 
-            return redirect('users')
+            return redirect('users') #リダイレクト
 
     else:
         form = RegisterForm()
@@ -69,8 +69,9 @@ def post_view(request):
 
         if form.is_valid():
             text = form.cleaned_data.get('text')
-
+            user = form.cleaned_data.get('user')
             comment = Comment(text = text)
+            comment.user = user
             comment.save()
 
             return redirect('comments')

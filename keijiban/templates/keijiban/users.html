@@ -16,6 +16,7 @@
         {% for user in users %}
         <tr>
             <td><a href="{% url 'user' user.id %}">{{ user.username }}</a></td>
+            <td>{{ user.comments.all|length }}</td>
         </tr>
         {% endfor %}
     </tbody>
