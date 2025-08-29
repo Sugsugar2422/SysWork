@@ -3,7 +3,10 @@ from django.http.response import HttpResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 import datetime
 from .forms import RegisterForm, PostForm
-from .models import User, Comment
+from .models import Comment
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def index_view(request):
     return redirect('comments')
